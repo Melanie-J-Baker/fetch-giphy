@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fetch Giphy</title>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+  <img src="#">
+  <button class ="newGif" type="button">New Image</button>
+  <div class="search-div">
+    <label for="search">Search for GIFs:</label>
+    <input type="search" id="search" name="search">
+    <button class="submit" type="button">Submit</button>
+  </div>
+  <script>
+    const img = document.querySelector('img');
+    const button = document.querySelector('.newGif');
+    const searchInput = document.querySelector('input');
+    const searchBtn = document.querySelector('.submit');
+
+    fetch('https://api.giphy.com/v1/gifs/translate?api_key=pdUlKpuiztW1e8pVQxRMeruDCDhjvHYk&s=cats', {mode: 'cors'})
+    .then(function(response) { 
+      return response.json();
+    })
+    .then(function(response) {
+      img.src = response.data.images.original.url;
+    });
+
+    button.addEventListener('click', () => {
+      if (searchInput.value !== "") {
+        fetch(`https://api.giphy.com/v1/gifs/translate?api_key=pdUlKpuiztW1e8pVQxRMeruDCDhjvHYk&s=${searchInput.value}`, {mode: 'cors'})
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(response) {
+          img.src = response.data.images.original.url;
+        });
+      } else {
+        fetch('https://api.giphy.com/v1/gifs/translate?api_key=pdUlKpuiztW1e8pVQxRMeruDCDhjvHYk&s=cats', {mode: 'cors'})
+        .then(function(response) { 
+          return response.json();
+        })
+        .then(function(response) {
+          img.src = response.data.images.original.url;
+        });
+      }
+    });
+
+    searchBtn.addEventListener('click', () => {
+      fetch(`https://api.giphy.com/v1/gifs/translate?api_key=pdUlKpuiztW1e8pVQxRMeruDCDhjvHYk&s=${searchInput.value}`, {mode: 'cors'})
+      .then(function(response) { 
+        return response.json();
+      })  
+      .then(function(response) {
+        img.src = response.data.images.original.url;
+      })
+      .catch((error) => {
+        alert("Please enter a valid search term");
+      });
+    })
+  </script>
+</body>
+</html>
